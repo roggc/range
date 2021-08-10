@@ -5,15 +5,17 @@ interface IUseMoveBulletProps{
     refBullet:React.RefObject<HTMLDivElement>;
     refOtherBullet:React.RefObject<HTMLDivElement>;
     refBar:React.RefObject<HTMLDivElement>;
-    range:number|undefined;
+    min:number|undefined;
+    max:number|undefined;
+    rangeValues:number[];
 }
 
-export const useMoveBullet=({isMin,refBullet,refOtherBullet,refBar,range}:IUseMoveBulletProps):[boolean,((e:React.MouseEvent)=>void)]=>{
+export const useMoveBullet=({isMin,refBullet,refOtherBullet,refBar,min,max,rangeValues}:IUseMoveBulletProps):[boolean,((e:React.MouseEvent)=>void)]=>{
     const [isGrabbing,setIsGrabbing]=useState(false)
     const [element,setElement]=useState<HTMLElement|null>(null)
     const [offsetX,setOffsetX]=useState<number>(0)
 
-    const numberOfPixelsPerUnit=range?(refBar.current?.getBoundingClientRect().right!-refBar.current?.getBoundingClientRect().left!)/range:undefined
+    const numberOfPixelsPerUnit=min&&max?(refBar.current?.getBoundingClientRect().right!-refBar.current?.getBoundingClientRect().left!)/(max-min):undefined
 
   const move=(event:MouseEvent)=>
   {

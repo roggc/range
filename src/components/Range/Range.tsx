@@ -6,15 +6,14 @@ import {useMoveBullet} from '../../hooks'
 
 interface IRangeProps extends React.HTMLAttributes<HTMLDivElement>{
     data:any;
-    isFixedValues?:boolean;
 }
 
-export const Range:React.FC<IRangeProps>=({data,isFixedValues=false,...props}):React.ReactElement=>{
+export const Range:React.FC<IRangeProps>=({data,...props}):React.ReactElement=>{
     const refMin=useRef<HTMLDivElement>(null)
     const refMax=useRef<HTMLDivElement>(null)
     const refBar=useRef<HTMLDivElement>(null)
-    const [isGrabbingMin,activateMin]=useMoveBullet({isMin:true,refBullet:refMin,refOtherBullet:refMax,refBar,range:data?data.max-data.min:undefined})
-    const [isGrabbingMax,activateMax]=useMoveBullet({isMin:false,refBullet:refMax,refOtherBullet:refMin,refBar,range:data?data.max-data.min:undefined})
+    const [isGrabbingMin,activateMin]=useMoveBullet({isMin:true,refBullet:refMin,refOtherBullet:refMax,refBar,min:data?data.min:undefined,max:data?data.max:undefined,rangeValues:data?data.rangeValues:undefined})
+    const [isGrabbingMax,activateMax]=useMoveBullet({isMin:false,refBullet:refMax,refOtherBullet:refMin,refBar,min:data?data.min:undefined,max:data?data.max:undefined,rangeValues:data?data.rangeValues:undefined})
 
     return (
         <RangeContainer {...props}> 
