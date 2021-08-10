@@ -1,58 +1,52 @@
-import React, {useState,useEffect,useLayoutEffect,useRef} from 'react'
+import React, {useState,useEffect,useLayoutEffect} from 'react'
 
 interface IUseMoveBulletProps{
     isMin:boolean;
     refBullet:React.RefObject<HTMLDivElement>;
     refOtherBullet:React.RefObject<HTMLDivElement>;
     refBar:React.RefObject<HTMLDivElement>;
-    range:number;
+    range:number|undefined;
 }
 
 export const useMoveBullet=({isMin,refBullet,refOtherBullet,refBar,range}:IUseMoveBulletProps):[boolean,((e:React.MouseEvent)=>void)]=>{
     const [isGrabbing,setIsGrabbing]=useState(false)
     const [element,setElement]=useState<HTMLElement|null>(null)
     const [offsetX,setOffsetX]=useState<number>(0)
-    // const isFirst=useRef(true)
 
-    // useEffect(()=>{
-    //     if(isFirst.current){
-    //         isFirst.current=false
-    //         console.log('only once')
-    //     }
-    // },[])
-
-    const numberOfPixelsPerUnit=(refBar.current?.getBoundingClientRect().right!-refBar.current?.getBoundingClientRect().left!)/range
+    const numberOfPixelsPerUnit=range?(refBar.current?.getBoundingClientRect().right!-refBar.current?.getBoundingClientRect().left!)/range:undefined
 
   const move=(event:MouseEvent)=>
   {
-      const step=numberOfPixelsPerUnit
-      let number=event.pageX-offsetX
-      number=Math.round(number/numberOfPixelsPerUnit)
-      number=number*numberOfPixelsPerUnit
-      if(!isMin&& 
-        refBullet.current?.getBoundingClientRect().right!-(refBullet.current?.getBoundingClientRect().right!-refBullet.current?.getBoundingClientRect().left!)/2<=refBar.current?.getBoundingClientRect().right!&&
-        refBullet.current?.getBoundingClientRect().left!+(refBullet.current?.getBoundingClientRect().right!-refBullet.current?.getBoundingClientRect().left!)/2>refOtherBullet.current?.getBoundingClientRect().right!-(refOtherBullet.current?.getBoundingClientRect().right!-refOtherBullet.current?.getBoundingClientRect().left!)/2|| 
-        isMin&&
-        refBullet.current?.getBoundingClientRect().left!+(refBullet.current?.getBoundingClientRect().right!-refBullet.current?.getBoundingClientRect().left!)/2>=refBar.current?.getBoundingClientRect().left!&&
-        refBullet.current?.getBoundingClientRect().right!-(refBullet.current?.getBoundingClientRect().right!-refBullet.current?.getBoundingClientRect().left!)/2<refOtherBullet.current?.getBoundingClientRect().left!+(refOtherBullet.current?.getBoundingClientRect().right!-refOtherBullet.current?.getBoundingClientRect().left!)/2){
-          element!.style.left = `${number}px`
-          while(isMin&&refBullet.current?.getBoundingClientRect().right!-(refBullet.current?.getBoundingClientRect().right!-refBullet.current?.getBoundingClientRect().left!)/2>=refOtherBullet.current?.getBoundingClientRect().left!+(refOtherBullet.current?.getBoundingClientRect().right!-refOtherBullet.current?.getBoundingClientRect().left!)/2){
-              number-=step
-              element!.style.left=`${number}px`
-          }
-          while(isMin&&refBullet.current?.getBoundingClientRect().left!+(refBullet.current?.getBoundingClientRect().right!-refBullet.current?.getBoundingClientRect().left!)/2<refBar.current?.getBoundingClientRect().left!){
-              number+=step
-              element!.style.left=`${number}px`
-          }
-          while(!isMin&& 
-            refBullet.current?.getBoundingClientRect().right!-(refBullet.current?.getBoundingClientRect().right!-refBullet.current?.getBoundingClientRect().left!)/2>refBar.current?.getBoundingClientRect().right!){
-              number-=step
-              element!.style.left=`${number}px`
-          }
-          while(!isMin&&
-            refBullet.current?.getBoundingClientRect().left!+(refBullet.current?.getBoundingClientRect().right!-refBullet.current?.getBoundingClientRect().left!)/2<=refOtherBullet.current?.getBoundingClientRect().right!-(refOtherBullet.current?.getBoundingClientRect().right!-refOtherBullet.current?.getBoundingClientRect().left!)/2){
-              number+=step
-              element!.style.left=`${number}px`
+      if(numberOfPixelsPerUnit){
+          const step=numberOfPixelsPerUnit
+          let number=event.pageX-offsetX
+          number=Math.round(number/numberOfPixelsPerUnit)
+          number=number*numberOfPixelsPerUnit
+          if(!isMin&& 
+            refBullet.current?.getBoundingClientRect().right!-(refBullet.current?.getBoundingClientRect().right!-refBullet.current?.getBoundingClientRect().left!)/2<=refBar.current?.getBoundingClientRect().right!&&
+            refBullet.current?.getBoundingClientRect().left!+(refBullet.current?.getBoundingClientRect().right!-refBullet.current?.getBoundingClientRect().left!)/2>refOtherBullet.current?.getBoundingClientRect().right!-(refOtherBullet.current?.getBoundingClientRect().right!-refOtherBullet.current?.getBoundingClientRect().left!)/2|| 
+            isMin&&
+            refBullet.current?.getBoundingClientRect().left!+(refBullet.current?.getBoundingClientRect().right!-refBullet.current?.getBoundingClientRect().left!)/2>=refBar.current?.getBoundingClientRect().left!&&
+            refBullet.current?.getBoundingClientRect().right!-(refBullet.current?.getBoundingClientRect().right!-refBullet.current?.getBoundingClientRect().left!)/2<refOtherBullet.current?.getBoundingClientRect().left!+(refOtherBullet.current?.getBoundingClientRect().right!-refOtherBullet.current?.getBoundingClientRect().left!)/2){
+              element!.style.left = `${number}px`
+              while(isMin&&refBullet.current?.getBoundingClientRect().right!-(refBullet.current?.getBoundingClientRect().right!-refBullet.current?.getBoundingClientRect().left!)/2>=refOtherBullet.current?.getBoundingClientRect().left!+(refOtherBullet.current?.getBoundingClientRect().right!-refOtherBullet.current?.getBoundingClientRect().left!)/2){
+                  number-=step
+                  element!.style.left=`${number}px`
+              }
+              while(isMin&&refBullet.current?.getBoundingClientRect().left!+(refBullet.current?.getBoundingClientRect().right!-refBullet.current?.getBoundingClientRect().left!)/2<refBar.current?.getBoundingClientRect().left!){
+                  number+=step
+                  element!.style.left=`${number}px`
+              }
+              while(!isMin&& 
+                refBullet.current?.getBoundingClientRect().right!-(refBullet.current?.getBoundingClientRect().right!-refBullet.current?.getBoundingClientRect().left!)/2>refBar.current?.getBoundingClientRect().right!){
+                  number-=step
+                  element!.style.left=`${number}px`
+              }
+              while(!isMin&&
+                refBullet.current?.getBoundingClientRect().left!+(refBullet.current?.getBoundingClientRect().right!-refBullet.current?.getBoundingClientRect().left!)/2<=refOtherBullet.current?.getBoundingClientRect().right!-(refOtherBullet.current?.getBoundingClientRect().right!-refOtherBullet.current?.getBoundingClientRect().left!)/2){
+                  number+=step
+                  element!.style.left=`${number}px`
+              }
           }
       }
   }

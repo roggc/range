@@ -17,8 +17,8 @@ export const NormalRange:React.FC<INormalRangeProps>=({...props}):React.ReactEle
     const refMin=useRef<HTMLDivElement>(null)
     const refMax=useRef<HTMLDivElement>(null)
     const refBar=useRef<HTMLDivElement>(null)
-    const [isGrabbingMin,activateMin]=useMoveBullet({isMin:true,refBullet:refMin,refOtherBullet:refMax,refBar,range:100-1})
-    const [isGrabbingMax,activateMax]=useMoveBullet({isMin:false,refBullet:refMax,refOtherBullet:refMin,refBar,range:100-1})
+    const [isGrabbingMin,activateMin]=useMoveBullet({isMin:true,refBullet:refMin,refOtherBullet:refMax,refBar,range:data?data.max-data.min:undefined})
+    const [isGrabbingMax,activateMax]=useMoveBullet({isMin:false,refBullet:refMax,refOtherBullet:refMin,refBar,range:data?data.max-data.min:undefined})
 
     if (isLoading) return <div>Loading...</div>
         
