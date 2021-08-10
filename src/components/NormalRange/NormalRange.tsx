@@ -67,6 +67,7 @@ align-items:center;
 const Label=styled.div`
 font-family:sans-serif;
 margin:20px;
+user-select:none;
 `
 
 const StyledBar=styled(Bar)`
@@ -90,4 +91,5 @@ ${isGrabbing?'height:20px;width:20px;top:-7px;':''}
     height:20px;
     top:-7px;
 }
+user-select:none;
 `

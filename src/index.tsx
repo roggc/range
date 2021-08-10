@@ -8,7 +8,7 @@ new Server({
     this.namespace = 'api'
 
     this.get('/minmax/', () => {
-      return { min: 1, max: 100 }
+      return { min: 1, max: 10 }
     })
   }
 })
