@@ -8,23 +8,23 @@ import {useMoveBullet} from '../../hooks'
 interface INormalRangeProps extends React.HTMLAttributes<HTMLDivElement>{}
 
 export const NormalRange:React.FC<INormalRangeProps>=({...props}):React.ReactElement=>{
-    const refMin=useRef<HTMLDivElement>(null)
-    const refMax=useRef<HTMLDivElement>(null)
-    const refBar=useRef<HTMLDivElement>(null)
-    const [isGrabbingMin,activateMin]=useMoveBullet({isMin:true,refBullet:refMin,refOtherBullet:refMax,refBar})
-    const [isGrabbingMax,activateMax]=useMoveBullet({isMin:false,refBullet:refMax,refOtherBullet:refMin,refBar})
-
     const { isLoading, error, data } = useQuery('minmax', () =>
      fetch('/api/minmax/').then(res =>
        res.json()
      )
    )
- 
-   if (isLoading) return <div>Loading...</div>
-        
-   // @ts-ignore
-   if (error) return <div>An error has occurred: {error.message}</div>
 
+    const refMin=useRef<HTMLDivElement>(null)
+    const refMax=useRef<HTMLDivElement>(null)
+    const refBar=useRef<HTMLDivElement>(null)
+    const [isGrabbingMin,activateMin]=useMoveBullet({isMin:true,refBullet:refMin,refOtherBullet:refMax,refBar,range:100-1})
+    const [isGrabbingMax,activateMax]=useMoveBullet({isMin:false,refBullet:refMax,refOtherBullet:refMin,refBar,range:100-1})
+
+    if (isLoading) return <div>Loading...</div>
+        
+    // @ts-ignore
+    if (error) return <div>An error has occurred: {error.message}</div>
+    
     return (
         <NormalRangeContainer {...props}>  
             <NormalRangeSubContainer> 
