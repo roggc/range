@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-export interface IBulletProps extends React.HTMLAttributes<HTMLDivElement>{}
+interface IBulletProps extends React.HTMLAttributes<HTMLDivElement>{}
 
 export const Bullet=React.forwardRef<HTMLDivElement,IBulletProps>(({...props},ref):React.ReactElement=>{
     return (

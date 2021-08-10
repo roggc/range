@@ -1,6 +1,7 @@
 import React,{useRef} from 'react'
 import styled from 'styled-components'
-import {Bullet,IBulletProps} from '../Bullet'
+import {useQuery} from 'react-query'
+import {Bullet} from '../Bullet'
 import {Bar} from '../Bar'
 import {useMoveBullet} from '../../hooks'
 
@@ -13,8 +14,21 @@ export const NormalRange:React.FC<INormalRangeProps>=({...props}):React.ReactEle
     const [isGrabbingMin,activateMin]=useMoveBullet({isMin:true,refBullet:refMin,refOtherBullet:refMax,refBar})
     const [isGrabbingMax,activateMax]=useMoveBullet({isMin:false,refBullet:refMax,refOtherBullet:refMin,refBar})
 
+    const { isLoading, error, data } = useQuery('minmax', () =>
+     fetch('/api/minmax/').then(res =>
+       res.json()
+     )
+   )
+ 
+   if (isLoading) return <div>Loading...</div>
+        
+   // @ts-ignore
+   if (error) return <div>An error has occurred: {error.message}</div>
+
     return (
-        <NormalRangeContainer {...props}>   
+        <NormalRangeContainer {...props}>  
+            <NormalRangeSubContainer> 
+            <Label>{data.min}€</Label>
             <StyledBar ref={refBar}>
                 <StyledBullet 
                     onMouseDown={activateMin} 
@@ -27,6 +41,8 @@ export const NormalRange:React.FC<INormalRangeProps>=({...props}):React.ReactEle
                     ref={refMax}
                 />
             </StyledBar>
+            <Label>{data.max}€</Label>
+            </NormalRangeSubContainer>
         </NormalRangeContainer>
     )
 }
@@ -39,6 +55,18 @@ display:flex;
 flex-direction:column;
 justify-content:center;
 align-items:center;
+`
+
+const NormalRangeSubContainer=styled.div`
+display:flex;
+flex-direction:row;
+justify-content:space-between;
+align-items:center;
+`
+
+const Label=styled.div`
+font-family:sans-serif;
+margin:20px;
 `
 
 const StyledBar=styled(Bar)`
