@@ -1,13 +1,25 @@
 import React from 'react'
 import styled from 'styled-components'
+import {useQuery} from 'react-query'
 import {Range} from '../Range'
 
 interface IFixedValuesRangeProps extends React.HTMLAttributes<HTMLDivElement>{}
 
 export const FixedValuesRange:React.FC<IFixedValuesRangeProps>=({...props}):React.ReactElement=>{
+    const { isLoading, error, data } = useQuery('fixedvalues', () =>
+     fetch('/api/fixedvalues/').then(res =>
+       res.json()
+     )
+   )
+
+    if (isLoading) return <div>Loading...</div>
+        
+    // @ts-ignore
+    if (error) return <div>An error has occurred: {error.message}</div>
+
     return (
         <FixedValuesRangeContainer {...props}>
-            <Range data={{min:1,max:100,rangeValues:[1.99,5.99,10.99,30.99,50.99,70.99]}} />
+            <Range data={data} />
         </FixedValuesRangeContainer>
     )
 }

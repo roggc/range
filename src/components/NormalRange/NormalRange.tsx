@@ -1,4 +1,4 @@
-import React,{useRef} from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import {useQuery} from 'react-query'
 import {Range} from '../Range'
@@ -6,8 +6,8 @@ import {Range} from '../Range'
 interface INormalRangeProps extends React.HTMLAttributes<HTMLDivElement>{}
 
 export const NormalRange:React.FC<INormalRangeProps>=({...props}):React.ReactElement=>{
-    const { isLoading, error, data } = useQuery('minmax', () =>
-     fetch('/api/minmax/').then(res =>
+    const { isLoading, error, data } = useQuery('normal', () =>
+     fetch('/api/normal/').then(res =>
        res.json()
      )
    )

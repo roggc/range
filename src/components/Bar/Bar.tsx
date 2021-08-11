@@ -13,7 +13,7 @@ interface IBarContainerProps{}
 
 const BarContainer=styled.div<IBarContainerProps>`
 border-radius:10px;
-width:300px;
+width:1000px;
 height:4px;
 background-color:black;
 `
