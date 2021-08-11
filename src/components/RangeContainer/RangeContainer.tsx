@@ -3,11 +3,13 @@ import styled from 'styled-components'
 import {useQuery} from 'react-query'
 import {Range} from '../Range'
 
-interface INormalRangeProps extends React.HTMLAttributes<HTMLDivElement>{}
+interface IRangeContainerProps extends React.HTMLAttributes<HTMLDivElement>{
+    type:string;
+}
 
-export const NormalRange:React.FC<INormalRangeProps>=({...props}):React.ReactElement=>{
-    const { isLoading, error, data } = useQuery('normal', () =>
-     fetch('/api/normal/').then(res =>
+export const RangeContainer:React.FC<IRangeContainerProps>=({type,...props}):React.ReactElement=>{
+    const { isLoading, error, data } = useQuery('range', () =>
+     fetch(`/api/${type}/`).then(res =>
        res.json()
      )
    )
@@ -18,13 +20,13 @@ export const NormalRange:React.FC<INormalRangeProps>=({...props}):React.ReactEle
     if (error) return <div>An error has occurred: {error.message}</div>
     
     return (
-        <NormalRangeContainer {...props}>  
+        <RangeContainerContainer {...props}>  
             <Range data={data} />
-        </NormalRangeContainer>
+        </RangeContainerContainer>
     )
 }
 
-const NormalRangeContainer=styled.div`
+const RangeContainerContainer=styled.div`
 height:100%;
 display:flex;
 flex-direction:column;
