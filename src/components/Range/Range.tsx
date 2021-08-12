@@ -20,18 +20,23 @@ export const Range:React.FC<IRangeProps>=({data,...props}):React.ReactElement=>{
     return (
         <RangeContainer {...props}> 
             <Label>{data.min}€</Label>
-            <StyledBar ref={refBar}>
-                <StyledBullet 
-                    onMouseDown={activateMin} 
-                    isGrabbing={isGrabbingMin} 
-                    ref={refMin}
-                />
-                <StyledBullet 
-                    onMouseDown={activateMax} 
-                    isGrabbing={isGrabbingMax} 
-                    ref={refMax}
-                />
-            </StyledBar>
+            <StyledBarAndBulletsContainer>
+                <StyledBulletContainerMin>
+                    <StyledBullet 
+                        onMouseDown={activateMin} 
+                        isGrabbing={isGrabbingMin} 
+                        ref={refMin}
+                    />
+                </StyledBulletContainerMin>
+                <Bar ref={refBar} />
+                <StyledBulletContainerMax>
+                    <StyledBullet 
+                        onMouseDown={activateMax} 
+                        isGrabbing={isGrabbingMax} 
+                        ref={refMax}
+                    />
+                </StyledBulletContainerMax>
+            </StyledBarAndBulletsContainer>
             <Label>{data.max}€</Label>
         </RangeContainer>
     )
@@ -49,26 +54,36 @@ margin:20px;
 user-select:none;
 `
 
-const StyledBar=styled(Bar)`
-display:flex;
-justify-content:space-between;
-`
-
 interface IStyledBulletProps {
     isGrabbing:boolean;
 }
 
 const StyledBullet=styled(Bullet)<IStyledBulletProps>`
 position:relative;
-top:-5px;
+top:0px;
+left:0px;
 ${({isGrabbing}):string=>`
 cursor:${isGrabbing?'grabbing':'grab'};
-${isGrabbing?'height:20px;width:20px;top:-7px;':''}
+${isGrabbing?'height:22px;width:22px;':''}
 `}
 &:hover{
-    width:20px;
-    height:20px;
-    top:-7px;
+    width:22px;
+    height:22px;
 }
 user-select:none;
+`
+
+const StyledBulletContainerMax=styled.div`
+position:relative;
+left:-8px;
+`
+
+const StyledBulletContainerMin=styled.div`
+position:relative;
+left:8px; 
+`
+
+const StyledBarAndBulletsContainer=styled.div`
+display:flex;
+align-items:center;
 `

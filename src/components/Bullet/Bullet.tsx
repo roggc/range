@@ -13,7 +13,7 @@ interface IBulletContainerProps {}
 
 const BulletContainer=styled.div<IBulletContainerProps>`
 border-radius:50%;
-width:15px;
-height:15px;
+width:16px;
+height:16px;
 background-color:black;
 `

@@ -8,10 +8,10 @@ new Server({
     this.namespace = 'api'
 
     this.get('/normal/', () => {
-      return { min: 1, max: 10 }
+      return { min: 1, max: 20 }
     })
     this.get('/fixedvalues/', () => {
-      return { min: 1, max: 100,rangeValues:[10,20,30,40,50,60,70,80,90] }
+      return { min: 1, max: 100,rangeValues:[1.99,5.99,10.99,30.99,50.99,70.99] }
     })
   }
 })
