@@ -1,19 +1,25 @@
 import React from 'react'
 import styled from 'styled-components'
 
-interface IBarProps extends React.HTMLAttributes<HTMLDivElement>{}
+interface IBarProps extends React.HTMLAttributes<HTMLDivElement>{
+    size?:number;
+}
 
-export const Bar=React.forwardRef<HTMLDivElement,IBarProps>(({...props},ref):React.ReactElement=>{
+export const Bar=React.forwardRef<HTMLDivElement,IBarProps>(({size=300,...props},ref):React.ReactElement=>{
     return (
-        <BarContainer {...props} ref={ref}></BarContainer>
+        <BarContainer {...props} ref={ref} width={size}></BarContainer>
     )
 })
 
-interface IBarContainerProps{}
+interface IBarContainerProps{
+    width:number;
+}
 
 const BarContainer=styled.div<IBarContainerProps>`
 border-radius:10px;
-width:1000px;
+${({width}):string=>`
+width:${width}px;
+`}
 height:4px;
 background-color:black;
 `

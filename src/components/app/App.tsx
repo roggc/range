@@ -1,22 +1,24 @@
-import React, { useEffect } from 'react'
+import React, { useLayoutEffect,createContext } from 'react'
 import styled from 'styled-components'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import {BrowserRouter as Router,Switch,Route} from 'react-router-dom'
 import {RangeContainer} from '../RangeContainer'
 
+export const RangeContext=createContext({barLength:0})
 const queryClient=new QueryClient()
 
 interface IAppProps{
 }
 
 export const App:React.FC<IAppProps>=({})=>{
-    useEffect(()=>{
+    useLayoutEffect(()=>{
         document.body.style.height='100%'
     },[])
     
     return (
         <AppContainer>
             <QueryClientProvider client={queryClient}>
+                <RangeContext.Provider value={{barLength:1000}}>
                 <Router>
                     <Switch>
                         <Route path='/exercise1'>
@@ -27,6 +29,7 @@ export const App:React.FC<IAppProps>=({})=>{
                         </Route>
                     </Switch>
                 </Router>
+                </RangeContext.Provider>
             </QueryClientProvider>
         </AppContainer>
     )

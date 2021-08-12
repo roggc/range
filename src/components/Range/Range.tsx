@@ -6,9 +6,10 @@ import {useMoveBullet} from '../../hooks'
 
 interface IRangeProps extends React.HTMLAttributes<HTMLDivElement>{
     data:any;
+    barLength?:number;
 }
 
-export const Range:React.FC<IRangeProps>=({data,...props}):React.ReactElement=>{
+export const Range:React.FC<IRangeProps>=({data,barLength,...props}):React.ReactElement=>{
     const refMin=useRef<HTMLDivElement>(null)
     const refMax=useRef<HTMLDivElement>(null)
     const refBar=useRef<HTMLDivElement>(null)
@@ -28,7 +29,7 @@ export const Range:React.FC<IRangeProps>=({data,...props}):React.ReactElement=>{
                         ref={refMin}
                     />
                 </StyledBulletContainerMin>
-                <Bar ref={refBar} />
+                <Bar ref={refBar} size={barLength} />
                 <StyledBulletContainerMax>
                     <StyledBullet 
                         onMouseDown={activateMax} 

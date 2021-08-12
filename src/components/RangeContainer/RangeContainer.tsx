@@ -1,13 +1,15 @@
-import React from 'react'
+import React,{useContext} from 'react'
 import styled from 'styled-components'
 import {useQuery} from 'react-query'
 import {Range} from '../Range'
+import {RangeContext} from '../App'
 
 interface IRangeContainerProps extends React.HTMLAttributes<HTMLDivElement>{
     type:string;
 }
 
 export const RangeContainer:React.FC<IRangeContainerProps>=({type,...props}):React.ReactElement=>{
+    const {barLength}=useContext(RangeContext)
     const { isLoading, error, data } = useQuery('range', () =>
      fetch(`/api/${type}/`).then(res =>
        res.json()
@@ -21,7 +23,7 @@ export const RangeContainer:React.FC<IRangeContainerProps>=({type,...props}):Rea
     
     return (
         <RangeContainerContainer {...props}>  
-            <Range data={data} />
+            <Range data={data} barLength={barLength} />
         </RangeContainerContainer>
     )
 }

@@ -24,12 +24,6 @@ export const useMoveBullet=({isMin,refBullet,refOtherBullet,refBar,min,max,range
   const move=(event:MouseEvent)=>
   {
       if(numberOfPixelsPerUnit){
-          let step
-          if(rangeValues){
-            step=0.01
-          }else{
-            step=numberOfPixelsPerUnit
-          }
           let number=event.pageX-offsetX
           number=number/numberOfPixelsPerUnit
 
