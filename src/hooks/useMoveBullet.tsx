@@ -18,6 +18,7 @@ export const useMoveBullet=({isMin,refBullet,refOtherBullet,refBar,min,max,range
     const [offsetX,setOffsetX]=useState<number>(0)
     const previousNumberRef=useRef(0)
     const previousDiffRef=useRef(true)
+    const previousRangeValueRef=useRef<number|undefined>()
 
     const numberOfPixelsPerUnit=min&&max?(refBar.current?.getBoundingClientRect().right!-refBar.current?.getBoundingClientRect().left!)/(max-min):undefined
 
@@ -43,6 +44,9 @@ export const useMoveBullet=({isMin,refBullet,refOtherBullet,refBar,min,max,range
             previousNumberRef.current=number
 
             if(isMin){
+              if(previousRangeValueRef.current===undefined){
+                previousRangeValueRef.current=rangeValues[0]
+              }
               number=number+rangeValues[0]-min!
               if(diff>0){
                 let aux
@@ -52,9 +56,15 @@ export const useMoveBullet=({isMin,refBullet,refOtherBullet,refBar,min,max,range
                   }
                 })
                 if(aux){
-                  number=aux-min!
+                  if(aux>=previousRangeValueRef.current){
+                    number=aux-min!
+                    previousRangeValueRef.current=aux
+                  }else{
+                    number=previousRangeValueRef.current-min!
+                  }
                 }else{
                   number=rangeValues[0]-min!
+                  previousRangeValueRef.current=rangeValues[0]
                 }
               }else if(diff<0){
                 let aux
@@ -65,12 +75,21 @@ export const useMoveBullet=({isMin,refBullet,refOtherBullet,refBar,min,max,range
                   }
                 })
                 if(aux){
-                  number=aux-min!
+                  if(aux<=previousRangeValueRef.current){
+                    number=aux-min!
+                    previousRangeValueRef.current=aux
+                  }else{
+                    number=previousRangeValueRef.current-min!
+                  }
                 }else{
                   number=rangeValues[rangeValues.length-2]-min!
+                  previousRangeValueRef.current=rangeValues[rangeValues.length-2]
                 }
               }
             }else{
+              if(previousRangeValueRef.current===undefined){
+                previousRangeValueRef.current=rangeValues[rangeValues.length-1]
+              }
               number=number-(max!-rangeValues[rangeValues.length-1])
               if(diff<0){
                 let aux
@@ -81,9 +100,15 @@ export const useMoveBullet=({isMin,refBullet,refOtherBullet,refBar,min,max,range
                   }
                 })
                 if(aux){
-                  number=-(max!-aux)
+                  if(aux<=previousRangeValueRef.current){
+                    number=-(max!-aux)
+                    previousRangeValueRef.current=aux
+                  }else{
+                    number=-(max!-previousRangeValueRef.current)
+                  }
                 }else{
                   number=-(max!-rangeValues[rangeValues.length-1])
+                  previousRangeValueRef.current=rangeValues[rangeValues.length-1]
                 }
               }else if(diff>0){
                 let aux
@@ -93,9 +118,15 @@ export const useMoveBullet=({isMin,refBullet,refOtherBullet,refBar,min,max,range
                   }
                 })
                 if(aux){
-                  number=-(max!-aux)
+                  if(aux>=previousRangeValueRef.current){
+                    number=-(max!-aux)
+                    previousRangeValueRef.current=aux
+                  }else{
+                    number=-(max!-previousRangeValueRef.current)
+                  }
                 }else{
                   number=-(max!-rangeValues[1])
+                  previousRangeValueRef.current=rangeValues[1]
                 }
               }
             }
