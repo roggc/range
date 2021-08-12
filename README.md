@@ -1,1 +1,1 @@
-once cloned, you run *npm i* to install dependencies and *npm start* to start the project.
+once cloned (git clone https://github.com/roggc/range.git name_you_want), you run *npm i* to install dependencies and *npm start* to start the project. you run *npm test* to run unit tests.
