@@ -1,37 +1,40 @@
-import React,{useContext} from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
-import {useQuery} from 'react-query'
-import {Range} from '../Range'
-import {RangeContext} from '../App'
+import { useQuery } from 'react-query'
+import Range from '../Range'
+import { RangeContext } from '../App'
 
-interface IRangeContainerProps extends React.HTMLAttributes<HTMLDivElement>{
-    type:string;
+interface IRangeContainerProps extends React.HTMLAttributes<HTMLDivElement> {
+    type: string
 }
 
-export const RangeContainer:React.FC<IRangeContainerProps>=({type,...props}):React.ReactElement=>{
-    const {barLength}=useContext(RangeContext)
+const RangeContainer: React.FC<IRangeContainerProps> = ({
+    type,
+    ...props
+}): React.ReactElement => {
+    const { barLength } = useContext(RangeContext)
     const { isLoading, error, data } = useQuery('range', () =>
-     fetch(`/api/${type}/`).then(res =>
-       res.json()
-     )
-   )
+        fetch(`/api/${type}/`).then((res) => res.json())
+    )
 
     if (isLoading) return <div>Loading...</div>
-        
+
     // @ts-ignore
     if (error) return <div>An error has occurred: {error.message}</div>
-    
+
     return (
-        <RangeContainerContainer {...props}>  
+        <RangeContainerContainer {...props}>
             <Range data={data} barLength={barLength} />
         </RangeContainerContainer>
     )
 }
 
-const RangeContainerContainer=styled.div`
-height:100%;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
+export default RangeContainer
+
+const RangeContainerContainer = styled.div`
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 `
