@@ -7,15 +7,20 @@ import RangeContainer from '../RangeContainer'
 export const RangeContext = createContext({ barLength: 0 })
 const queryClient = new QueryClient()
 
-interface IAppProps {}
+interface IAppProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-const App: React.FC<IAppProps> = ({}) => {
+/**
+ * renders a range component in two modalities, normal and fixed values
+ * @param {IAppProps} props 
+ * @returns {React.ReactElement}
+ */
+const App: React.FC<IAppProps> = ({...props}):React.ReactElement => {
     useLayoutEffect(() => {
         document.body.style.height = '100%'
     }, [])
 
     return (
-        <AppContainer>
+        <AppContainer {...props}>
             <QueryClientProvider client={queryClient}>
                 <RangeContext.Provider value={{ barLength: 1000 }}>
                     <Router>
@@ -36,6 +41,9 @@ const App: React.FC<IAppProps> = ({}) => {
 
 export default App
 
+/**
+ * sets height 100%
+ */
 const AppContainer = styled.div`
     height: 100%;
 `

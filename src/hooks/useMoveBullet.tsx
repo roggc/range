@@ -1,21 +1,48 @@
 import React, { useState, useEffect, useLayoutEffect, useRef } from 'react'
 
 interface IUseMoveBulletProps {
+    /**
+     * is the knob the minimum knob?
+     */
     isMin: boolean
+    /**
+     * reference to the knob
+     */
     refBullet: React.RefObject<HTMLDivElement>
-    refOtherBullet: React.RefObject<HTMLDivElement>
+    /**
+     * reference to the bar component
+     */
     refBar: React.RefObject<HTMLDivElement>
+    /**
+     * the minimum number of units (value from data)
+     */
     min: number | undefined
+    /**
+     * the maximum number of units (value from data)
+     */
     max: number | undefined
-    rangeValues: number[]
+    /**
+     * for fixed values modality, the fixed values (value from data). undefined in normal modality
+     */
+    rangeValues: number[] | undefined
+    /**
+     * reference to the number of units that is moved to the right (a negative value means moved to the left)
+     */
     refUnits: React.MutableRefObject<number>
+    /**
+     * reference to the number of units for the position of the other knob
+     */
     refOtherUnits: React.MutableRefObject<number>
 }
 
+/**
+ * performs movement of the knobs when dragged through the units and within the limits marked by data and position of the other knob
+ * @param {IUseMoveBulletProps} object
+ * @returns {[boolean, (e: React.MouseEvent) => void]} isGrabbing state and onmousedown action
+ */
 export const useMoveBullet = ({
     isMin,
     refBullet,
-    refOtherBullet,
     refBar,
     min,
     max,

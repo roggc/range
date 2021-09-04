@@ -8,6 +8,11 @@ interface IRangeContainerProps extends React.HTMLAttributes<HTMLDivElement> {
     type: string
 }
 
+/**
+ * wrapper for Range component for fetching data
+ * @param {IRangeContainerProps} props 
+ * @returns {React.ReactElement}
+ */
 const RangeContainer: React.FC<IRangeContainerProps> = ({
     type,
     ...props
@@ -31,6 +36,9 @@ const RangeContainer: React.FC<IRangeContainerProps> = ({
 
 export default RangeContainer
 
+/**
+ * displays the range component at the center of the screen
+ */
 const RangeContainerContainer = styled.div`
     height: 100%;
     display: flex;

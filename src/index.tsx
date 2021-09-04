@@ -8,7 +8,7 @@ new Server({
         this.namespace = 'api'
 
         this.get('/normal/', () => {
-            return { min: 1, max: 20 }
+            return { min: 1, max: 20, rangeValues: undefined }
         })
         this.get('/fixedvalues/', () => {
             return {
